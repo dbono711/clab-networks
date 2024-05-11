@@ -1,0 +1,29 @@
+import subprocess
+
+
+def ping_ip(ip_address):
+    """Docstring missing."""
+    reply = subprocess.run(
+        [
+            "docker",
+            "exec",
+            "-it",
+            "clab-evpn-vxlan-01-client1",
+            "bash",
+            "-c",
+            f"ping -c 3 -n {ip_address}",
+        ],
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        encoding="utf-8",
+    )
+
+    print(f"Pinging client2 ({ip_address}) from client1 over VNI 110...", end="")
+
+    if reply.returncode == 0:
+        return "SUCCESS"
+    else:
+        return "FAILURE"
+
+
+print(ping_ip("10.10.1.2"))
