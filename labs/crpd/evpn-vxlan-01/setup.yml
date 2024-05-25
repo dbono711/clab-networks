@@ -1,0 +1,41 @@
+name: evpn-vxlan-01
+
+mgmt:
+  network: br-evpn-vxlan-01
+  ipv4-subnet: 10.0.0.0/24
+
+topology:
+  defaults:
+    license: junos_sfnt.lic
+  kinds:
+    crpd:
+      image: crpd:22.4R1-S2.1
+  nodes:
+
+    # spine01
+    spine01:
+      kind: crpd
+      mgmt-ipv4: 10.0.0.2
+      ports:
+        - 10022:10022
+      startup-config: spine01/config
+    
+    # spine02
+    spine02:
+      kind: crpd
+      mgmt-ipv4: 10.0.0.3
+      ports:
+        - 10122:10122
+      startup-config: spine02/config
+    
+    # leaf01
+    leaf01:
+      kind: crpd
+      mgmt-ipv4: 10.0.0.4
+      ports:
+        - 10222:10222
+      startup-config: leaf01/config
+
+  links:
+    - endpoints: ["spine01:eth1", "leaf01:eth1"]
+    - endpoints: ["spine02:eth1", "leaf01:eth2"]

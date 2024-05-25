@@ -1,0 +1,16 @@
+## Last commit: 2024-05-11 21:31:49 UTC by root
+version 20230316.124115_builder.r1321738;
+system {
+    root-authentication {
+        encrypted-password "$6$lB5c6$Zeud8c6IhCTE6hnZxXBl3ZMZTC2hOx9pxxYUWTHKW1oC32SATWLMH2EXarxWS5k685qMggUfFur1lq.o4p4cg1"; ## SECRET-DATA
+    }
+    services {
+        ssh {
+            root-login allow;
+            port 10222;
+        }
+        netconf {
+            ssh;
+        }
+    }
+}

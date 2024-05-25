@@ -1,6 +1,6 @@
-# simple-evpn-vxlan-l2
+# FRR-based EVPN VXLAN
 
-EVPN-VXLAN 3-stage IP CLOS fabric using [FRR](https://docs.frrouting.org/en/latest/evpn.html) to facilitate Layer 2 connectivity over VNI 110 between ```client1``` connected to ```leaf01``` on VLAN10 and ```client2``` connected to ```leaf02``` on VLAN10
+[CONTAINERlab](https://containerlab.dev/) EVPN-VXLAN 3-stage IP CLOS fabric using [FRR](https://docs.frrouting.org/en/latest/evpn.html) to facilitate Layer 2 connectivity over VNI 110 between ```client1``` connected to ```leaf01``` on VLAN10 and ```client2``` connected to ```leaf02``` on VLAN10
 
 ## Topology
 
@@ -18,7 +18,7 @@ graph TD
 
 ### IP Assignments
 
-**NOTE**: The Overlay/VTEP assignments for spine01/spine02 are not actually implemented, or even required, since our VTEP's in this lab are on leaf01/leaf02. The assignments are therefore just for consistency purposes
+_**NOTE**: The Overlay/VTEP assignments for spine01/spine02 are not actually implemented, or even required, since our VTEP's in this lab are on leaf01/leaf02. The assignments are therefore just for consistency purposes_
 
 | Scope              | Network       | Sub-Network   | Assignment    | Name            |
 | ------------------ | ------------- | ------------- | ------------- | -------         |
@@ -75,9 +75,9 @@ make setup
   * Loops through each switch to execute the respective script within the ```spine01|02 leaf01|02``` folder
     * The script configures the Linux-level Ethernet, Dummy, VXLAN, and Bridge interfaces; leaving the IP/Network-level configuration to FRR
 
-Stop the lab, tear down the CONTAINERlab containers
-
 ## Cleanup
+
+Stop the lab, tear down the CONTAINERlab containers
 
 ```shell
 make clean

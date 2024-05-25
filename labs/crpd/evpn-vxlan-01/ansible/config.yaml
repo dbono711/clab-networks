@@ -1,0 +1,21 @@
+---
+- name: Configure network devices based on operating system
+  hosts: all
+  gather_facts: false
+  strategy: free
+  tasks:
+
+    # !!! THE 'junipernetworks.junos.junos_interfaces' DOES NOT WORK CRPD DUE TO '<enable />' ELEMENT !!!
+    # - name: configuring interfaces
+    #   junipernetworks.junos.junos_interfaces:
+    #     config: "{{ interfaces_all | default([]) + interfaces | default([]) }}"
+    #   when: (interfaces_all is defined and interfaces_all) or (interfaces is defined and interfaces)
+    #   tags:
+    #     - "intf"
+
+    - name: configuring layer 3 interfaces
+      junipernetworks.junos.junos_l3_interfaces:
+        config: "{{ l3_interfaces }}"
+      when: l3_interfaces is defined and l3_interfaces
+      tags:
+        - "intf"

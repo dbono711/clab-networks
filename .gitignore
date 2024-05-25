@@ -1,7 +1,9 @@
 clab-*
 .setup.yml.bak
+junos_sfnt.lic
 __pycache__
 *.code-workspace
 log.txt
 logs.log
 .DS_store
+.venv/
