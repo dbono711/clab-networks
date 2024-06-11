@@ -1,6 +1,6 @@
 # cRPD-based EVPN VXLAN
 
-EVPN-VXLAN 3-stage IP CLOS fabric using Juniper [cRPD](https://www.juniper.net/documentation/us/en/software/crpd/crpd-deployment/index.html) to facilitate Layer 2 connectivity between ```client1``` and ```client2```
+3-stage Layer 3 Leaf/Spine (L3LS) IP fabric using Juniper [cRPD](https://www.juniper.net/documentation/us/en/software/crpd/crpd-deployment/index.html) to facilitate Layer 2 connectivity between ```client1``` & ```client2``` with EVPN-VXLAN
 
 ## Topology
 
@@ -16,10 +16,18 @@ graph TD
 
 ## Requirements
 
+* CONTAINERlab >= 0.54.2 (as detailed in the top-level [README](../../../README.md))
 * Python >= 3.10
-* Docker [image](https://www.juniper.net/documentation/us/en/software/crpd/crpd-deployment/topics/task/crpd-linux-server-install.html#id-loading-the-crr-image) for cRPD (on the host running this CONTAINERlab setup)
-  * Adjust the ```image``` directive in [setup.yml](setup.yml) to reflect the image and tag assigned to the cRPD container. For instance, in this lab, I am using ```crpd:22.4R1-S2.1```
-* A valid cRPD license key placed in a file called 'junos_sfnt.lic' at the root of the repository (same level as [setup.yml](setup.yml))
+* Docker Community Edition >= 26.1.4
+* Docker cRPD [image](https://www.juniper.net/documentation/us/en/software/crpd/crpd-deployment/topics/task/crpd-linux-server-install.html#id-loading-the-crr-image) >= 22.4R1-S2.1
+  * NOTE: You will need to adjust the ```image``` value in [setup.yml](setup.yml) to reflect the image and tag assigned
+
+```shell
+$ docker image ls | grep crpd
+crpd                       22.4R1-S2.1    9ed0a701769a   14 months ago   546MB
+```
+
+* A valid cRPD license key placed in a file called ```junos_sfnt.lic``` at the root of the repository (same level as [setup.yml](setup.yml))
 
 ## Resources
 
@@ -59,7 +67,7 @@ _**NOTE**: The Overlay/VTEP assignments for spine01/spine02 are not actually imp
 
 | ASN   | Device  |
 | ----- | ------- |
-| 65599 | all     |
+| 65555 | all     |
 
 ### VXLAN Segments
 
@@ -70,24 +78,50 @@ _**NOTE**: The Overlay/VTEP assignments for spine01/spine02 are not actually imp
 
 ## Deployment
 
-Change into the lab directory and start the lab
+Change into this lab directory from the root of the repository
 
 ```shell
 cd labs/crpd/evpn-vxlan-01/
-make start
 ```
 
-* Creates the [CONTAINERlab network](https://containerlab.dev/manual/topo-def-file/) based on the [setup.yml](setup.yml) topology definition
-* Apply's the configuration from the spine/leaf folders as "startup" configuration on each cRPD host
-* Apply's a cRPD license on each cRPD host. Please refer to the [Requirements](#requirements)
+### Create the lab
 
-| # |            Name            | Container ID |      Image       | Kind |  State  | IPv4 Address  | IPv6 Address |
-| - | -------------------------- | ------------ | ---------------- | ---- | ------- | ------------- | ------------ |
-| 1 | clab-evpn-vxlan-01-spine01 | 6a4cc9fbb36c | crpd:22.4R1-S2.1 | crpd | running | 172.29.1.2/24 | N/A          |
+```shell
+make lab
+```
 
-## Access
+* Creates the [CONTAINERlab topology](https://containerlab.dev/manual/topo-def-file/) based on the [setup.yml](setup.yml) topology definition
+  * Apply's the bootstrap JUNOS configuration from the respective ```spine``` or ```leaf``` folders on each cRPD host
+* Apply's a cRPD license on each cRPD host
 
-...
+```markdown
++---+----------------------------+--------------+--------------------------------------+-------+---------+--------------+--------------+
+| # |            Name            | Container ID |                Image                 | Kind  |  State  | IPv4 Address | IPv6 Address |
++---+----------------------------+--------------+--------------------------------------+-------+---------+--------------+--------------+
+| 1 | clab-evpn-vxlan-01-client1 | 83a1cbc08cae | wbitt/network-multitool:alpine-extra | linux | running | 10.0.0.6/24  | N/A          |
+| 2 | clab-evpn-vxlan-01-client2 | f8e765d525dc | wbitt/network-multitool:alpine-extra | linux | running | 10.0.0.7/24  | N/A          |
+| 3 | clab-evpn-vxlan-01-leaf01  | f7ae53e429f6 | crpd:22.4R1-S2.1                     | crpd  | running | 10.0.0.4/24  | N/A          |
+| 4 | clab-evpn-vxlan-01-leaf02  | 6ac7f27abbd5 | crpd:22.4R1-S2.1                     | crpd  | running | 10.0.0.5/24  | N/A          |
+| 5 | clab-evpn-vxlan-01-spine01 | b9d731c8c93e | crpd:22.4R1-S2.1                     | crpd  | running | 10.0.0.2/24  | N/A          |
++---+----------------------------+--------------+--------------------------------------+-------+---------+--------------+--------------+
+```
+
+### Configure the lab
+
+```shell
+make configure
+```
+
+* Executes an Ansible playbook for creating the fabric underlay/overlay and EVPN/VXLAN configuration
+* Apply's the Linux configuration from the ```clients``` folders to each Linux host
+
+## Validation
+
+```shell
+make validate
+```
+
+* Executes a PING from ```client1``` to ```client2```
 
 ## Cleanup
 
@@ -97,10 +131,19 @@ Stop the lab, tear down the CONTAINERlab containers
 make clean
 ```
 
-## Validation
+## Access
 
-```shell
-make validate
-```
+The individual CONTAINERlab hosts can be accessed as follows:
 
-* Executes a PING from ```client1``` to ```client2``` and if it fails, executes a testing sequence
+* SHELL access
+  * ```docker exec -it clab-evpn-vxlan-01-spine01 bash```
+
+* CLI access
+  * ```docker exec -it clab-evpn-vxlan-01-spine01 cli```
+
+## TODO
+
+* Add Layer 3 first-hop gateway's for the VNI as well as the capability for inter-VNI routing
+* Add a third leaf in a different VNI
+* Create individual Ansible tasks for configuring the devices according to the modules available in the 'junipernetworks.junos' collection
+* Create a set of regression tests if the PING in the [Validation](#validation) step fails

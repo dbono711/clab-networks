@@ -4,6 +4,7 @@ spine02
 
 [leaf]
 leaf01
+leaf02
 
 [fabric:children]
 spine

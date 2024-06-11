@@ -1,17 +1,3 @@
 ---
 ansible_host: 10.0.0.2
 ansible_port: 10022
-
-# interfaces
-interfaces: []
-
-# l3 interfaces
-l3_interfaces:
-  - name: lo0
-    unit: 0
-    ipv4:
-      - address: 10.1.0.1/32
-  - name: eth1
-    unit: 0
-    ipv4:
-      - address: 10.2.0.0/31

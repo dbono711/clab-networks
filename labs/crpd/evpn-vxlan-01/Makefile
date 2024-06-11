@@ -1,23 +1,40 @@
+CLAB = clab-evpn-vxlan-01
 LOG_FILE = setup.log
 VENV_DIR = .venv
 REQ_FILE = requirements.txt
-HOSTS = ansible/hosts
-PLAYBOOK = ansible/config.yaml
-CLAB_CHECK = $(sudo clab inspect --topo setup.yml)
-
-ifeq ($(wildcard $(VENV_DIR)),)
-    VENV_EXISTS = false
-else
-    VENV_EXISTS = true
-endif
+ANSIBLE_HOSTS = ansible/hosts
+ANSIBLE_PLAYBOOK = ansible/config.yaml
+CLIENTS = client1 client2
 
 define log
     echo "[$(shell date '+%Y-%m-%d %H:%M:%S')] $1" >> $(LOG_FILE)
 endef
 
+define client_setup
+	for CLIENT in $(CLIENTS); do \
+		docker cp clients/$$CLIENT.sh $(CLAB)-$$CLIENT:/tmp/; \
+		docker exec $(CLAB)-$$CLIENT bash /tmp/$$CLIENT.sh 2>/dev/null; \
+	done
+endef
+
 .PHONY: graph
 graph:
 	@sudo clab graph --topo setup.yml
+
+.PHONY: validate
+validate:
+	@$(call log,Executing validation testing...)
+	@python3 validate.py >> $(LOG_FILE) 2>&1
+	@echo "Validation complete. Check 'setup.log' for detailed output."
+
+.PHONY: configure
+configure:
+	@$(call log,Starting configuration...)
+	@$(call log,Running ansible playbook for cRPD configuration...)
+	@$(VENV_DIR)/bin/ansible-playbook -i $(ANSIBLE_HOSTS) -l spine01,spine02,leaf01,leaf02 $(ANSIBLE_PLAYBOOK) >> $(LOG_FILE) 2>&1
+	@$(call log,Running shell scripts for client configuration...)
+	@$(call client_setup) >> $(LOG_FILE) 2>&1
+	@echo "Configuration complete. Check 'setup.log' for detailed output."
 
 .PHONY: initialize_log
 initialize_log:
@@ -25,7 +42,7 @@ initialize_log:
 
 .PHONY: initialize-virtual-environment
 initialize-virtual-environment: initialize_log
-	@if [ $(VENV_EXISTS) = false ]; then \
+	@if [ ! -d $(VENV_DIR) ]; then \
 		$(call log,Creating virtual environment...); \
 		python3 -m venv $(VENV_DIR) >> $(LOG_FILE) 2>&1; \
 		$(call log,Installing requirements in virtual environment...); \
@@ -34,20 +51,14 @@ initialize-virtual-environment: initialize_log
 		$(call log,Virtual environment already exists.); \
 	fi
 
-.PHONY: start
-start: initialize-virtual-environment
+.PHONY: lab
+lab: initialize-virtual-environment
 	@$(call log,Deploying ContainerLAB topology...)
 	@sudo clab deploy --topo setup.yml >> $(LOG_FILE) 2>&1
 	@sleep 5
 	@bash add-license-keys.sh >> $(LOG_FILE) 2>&1
 	@$(call log,ContainerLAB topology successfully deployed.)
-
-.PHONY: configure
-configure: start
-	@$(call log,Starting configuration...)
-	@$(call log,Running ansible playbook...)
-	@$(VENV_DIR)/bin/ansible-playbook -i $(HOSTS) -l spine01 $(PLAYBOOK) >> $(LOG_FILE) 2>&1
-	@echo "Configuration complete. Check 'setup.log' for detailed output."
+	@echo "Lab complete. Check 'setup.log' for detailed output."
 
 .PHONY: clean
 clean: initialize_log
@@ -56,5 +67,3 @@ clean: initialize_log
 	@rm -rf $(VENV_DIR) >> $(LOG_FILE) 2>&1
 	@$(call log,Cleaning complete.)
 	@echo "Cleaning complete. Check 'setup.log' for detailed output."
-
-all: configure

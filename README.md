@@ -4,7 +4,7 @@
 
 ## Requirements
 
-**_NOTE: Per the [CONTAINERlab](https://containerlab.dev/install/) installation guide, there are many ways to installa and subsequently utilize CONTAINERlab. The labs created in this repository assume the corresponding [pre-requisites](https://containerlab.dev/install/#pre-requisites) are met and CONTAINERlab is installed using the [Install script](https://containerlab.dev/install/#install-script) method. Any additional requirements needed by the individual labs will be covered in the respective README files._**
+**The [CONTAINERlab](https://containerlab.dev/install/) installation guide details many ways to install and subsequently utilize CONTAINERlab. The labs created in this repository assume the corresponding [pre-requisites](https://containerlab.dev/install/#pre-requisites) are met and CONTAINERlab is installed using the [Install script](https://containerlab.dev/install/#install-script) method. Any additional requirements needed by the individual labs will be covered in the respective README files.**
 
 ## Labs
 

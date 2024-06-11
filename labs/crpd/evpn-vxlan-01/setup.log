@@ -1,0 +1,12 @@
+[2024-06-10 19:57:55] Cleaning up...
+time="2024-06-10T19:57:55-04:00" level=info msg="Parsing & checking topology file: setup.yml"
+time="2024-06-10T19:57:55-04:00" level=info msg="Destroying lab: evpn-vxlan-01"
+time="2024-06-10T19:57:56-04:00" level=info msg="Removed container: clab-evpn-vxlan-01-client2"
+time="2024-06-10T19:57:56-04:00" level=info msg="Removed container: clab-evpn-vxlan-01-client1"
+time="2024-06-10T19:57:56-04:00" level=info msg="Removed container: clab-evpn-vxlan-01-leaf01"
+time="2024-06-10T19:57:56-04:00" level=info msg="Removed container: clab-evpn-vxlan-01-spine01"
+time="2024-06-10T19:57:56-04:00" level=info msg="Removed container: clab-evpn-vxlan-01-spine02"
+time="2024-06-10T19:57:56-04:00" level=info msg="Removed container: clab-evpn-vxlan-01-leaf02"
+time="2024-06-10T19:57:56-04:00" level=info msg="Removing containerlab host entries from /etc/hosts file"
+time="2024-06-10T19:57:56-04:00" level=info msg="Removing ssh config for containerlab nodes"
+[2024-06-10 19:57:55] Cleaning complete.

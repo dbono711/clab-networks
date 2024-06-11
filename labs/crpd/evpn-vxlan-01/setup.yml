@@ -35,7 +35,30 @@ topology:
       ports:
         - 10222:10222
       startup-config: leaf01/config
+    
+    # leaf02
+    leaf02:
+      kind: crpd
+      mgmt-ipv4: 10.0.0.5
+      ports:
+        - 10322:10322
+      startup-config: leaf02/config
+    
+    # clients
+    client1:
+      kind: linux
+      image: wbitt/network-multitool:alpine-extra
+      mgmt-ipv4: 10.0.0.6
+    
+    client2:
+      kind: linux
+      image: wbitt/network-multitool:alpine-extra
+      mgmt-ipv4: 10.0.0.7
 
   links:
     - endpoints: ["spine01:eth1", "leaf01:eth1"]
+    - endpoints: ["spine01:eth2", "leaf02:eth1"]
     - endpoints: ["spine02:eth1", "leaf01:eth2"]
+    - endpoints: ["spine02:eth2", "leaf02:eth2"]
+    - endpoints: ["client1:eth1", "leaf01:eth3"]
+    - endpoints: ["client2:eth1", "leaf02:eth3"]

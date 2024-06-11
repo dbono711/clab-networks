@@ -1,6 +1,6 @@
 # FRR-based EVPN VXLAN
 
-[CONTAINERlab](https://containerlab.dev/) EVPN-VXLAN 3-stage IP CLOS fabric using [FRR](https://docs.frrouting.org/en/latest/evpn.html) to facilitate Layer 2 connectivity over VNI 110 between ```client1``` connected to ```leaf01``` on VLAN10 and ```client2``` connected to ```leaf02``` on VLAN10
+3-stage Layer 3 Leaf/Spine (L3LS) IP fabric using [FRR](https://docs.frrouting.org/en/latest/evpn.html) to facilitate Layer 2 connectivity between ```client1``` & ```client2``` with EVPN-VXLAN
 
 ## Topology
 
