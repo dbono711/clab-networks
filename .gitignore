@@ -1,9 +1,11 @@
-clab-*
-.setup.yml.bak
-junos_sfnt.lic
 __pycache__
-*.code-workspace
-log.txt
-logs.log
+.setup.yml.bak
 .DS_store
 .venv/
+*.code-workspace
+clab-*
+junos_sfnt.lic
+log.txt
+logs.log
+setup.log
+nohup.out
