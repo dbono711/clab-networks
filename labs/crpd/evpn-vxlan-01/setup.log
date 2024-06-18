@@ -1,12 +1,136 @@
-[2024-06-10 19:57:55] Cleaning up...
-time="2024-06-10T19:57:55-04:00" level=info msg="Parsing & checking topology file: setup.yml"
-time="2024-06-10T19:57:55-04:00" level=info msg="Destroying lab: evpn-vxlan-01"
-time="2024-06-10T19:57:56-04:00" level=info msg="Removed container: clab-evpn-vxlan-01-client2"
-time="2024-06-10T19:57:56-04:00" level=info msg="Removed container: clab-evpn-vxlan-01-client1"
-time="2024-06-10T19:57:56-04:00" level=info msg="Removed container: clab-evpn-vxlan-01-leaf01"
-time="2024-06-10T19:57:56-04:00" level=info msg="Removed container: clab-evpn-vxlan-01-spine01"
-time="2024-06-10T19:57:56-04:00" level=info msg="Removed container: clab-evpn-vxlan-01-spine02"
-time="2024-06-10T19:57:56-04:00" level=info msg="Removed container: clab-evpn-vxlan-01-leaf02"
-time="2024-06-10T19:57:56-04:00" level=info msg="Removing containerlab host entries from /etc/hosts file"
-time="2024-06-10T19:57:56-04:00" level=info msg="Removing ssh config for containerlab nodes"
-[2024-06-10 19:57:55] Cleaning complete.
+[2024-06-17 13:53:39] Creating virtual environment...
+[2024-06-17 13:53:39] Installing requirements in virtual environment...
+Collecting ansible==9.5.1
+  Using cached ansible-9.5.1-py3-none-any.whl (47.0 MB)
+Collecting ncclient==0.6.15
+  Using cached ncclient-0.6.15.tar.gz (634 kB)
+  Preparing metadata (setup.py): started
+  Preparing metadata (setup.py): finished with status 'done'
+Collecting xmltodict==0.13.0
+  Using cached xmltodict-0.13.0-py2.py3-none-any.whl (10.0 kB)
+Collecting ansible-core~=2.16.6
+  Using cached ansible_core-2.16.7-py3-none-any.whl (2.3 MB)
+Collecting lxml>=3.3.0
+  Using cached lxml-5.2.2-cp310-cp310-manylinux_2_28_x86_64.whl (5.0 MB)
+Collecting paramiko>=1.15.0
+  Using cached paramiko-3.4.0-py3-none-any.whl (225 kB)
+Requirement already satisfied: setuptools>0.6 in ./.venv/lib/python3.10/site-packages (from ncclient==0.6.15->-r requirements.txt (line 2)) (59.6.0)
+Collecting six
+  Using cached six-1.16.0-py2.py3-none-any.whl (11 kB)
+Collecting packaging
+  Using cached packaging-24.1-py3-none-any.whl (53 kB)
+Collecting resolvelib<1.1.0,>=0.5.3
+  Using cached resolvelib-1.0.1-py2.py3-none-any.whl (17 kB)
+Collecting jinja2>=3.0.0
+  Using cached jinja2-3.1.4-py3-none-any.whl (133 kB)
+Collecting PyYAML>=5.1
+  Using cached PyYAML-6.0.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (705 kB)
+Collecting cryptography
+  Using cached cryptography-42.0.8-cp39-abi3-manylinux_2_28_x86_64.whl (3.9 MB)
+Collecting pynacl>=1.5
+  Using cached PyNaCl-1.5.0-cp36-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.manylinux_2_24_x86_64.whl (856 kB)
+Collecting bcrypt>=3.2
+  Using cached bcrypt-4.1.3-cp39-abi3-manylinux_2_28_x86_64.whl (283 kB)
+Collecting cffi>=1.12
+  Using cached cffi-1.16.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (443 kB)
+Collecting MarkupSafe>=2.0
+  Using cached MarkupSafe-2.1.5-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (25 kB)
+Collecting pycparser
+  Using cached pycparser-2.22-py3-none-any.whl (117 kB)
+Using legacy 'setup.py install' for ncclient, since package 'wheel' is not installed.
+Installing collected packages: resolvelib, xmltodict, six, PyYAML, pycparser, packaging, MarkupSafe, lxml, bcrypt, jinja2, cffi, pynacl, cryptography, paramiko, ansible-core, ncclient, ansible
+  Running setup.py install for ncclient: started
+  Running setup.py install for ncclient: finished with status 'done'
+Successfully installed MarkupSafe-2.1.5 PyYAML-6.0.1 ansible-9.5.1 ansible-core-2.16.7 bcrypt-4.1.3 cffi-1.16.0 cryptography-42.0.8 jinja2-3.1.4 lxml-5.2.2 ncclient-0.6.15 packaging-24.1 paramiko-3.4.0 pycparser-2.22 pynacl-1.5.0 resolvelib-1.0.1 six-1.16.0 xmltodict-0.13.0
+[2024-06-17 13:53:55] Deploying ContainerLAB topology...
+time="2024-06-17T13:53:55-04:00" level=info msg="Containerlab v0.54.2 started"
+time="2024-06-17T13:53:55-04:00" level=info msg="Parsing & checking topology file: setup.yml"
+time="2024-06-17T13:53:55-04:00" level=info msg="Creating docker network: Name=\"br-evpn-vxlan-01\", IPv4Subnet=\"10.0.0.0/24\", IPv6Subnet=\"\", MTU=1500"
+time="2024-06-17T13:53:55-04:00" level=info msg="Creating lab directory: /home/darren/dev/src/github.com/clab-networks/labs/crpd/evpn-vxlan-01/clab-evpn-vxlan-01"
+time="2024-06-17T13:53:55-04:00" level=info msg="Creating container: \"client2\""
+time="2024-06-17T13:53:55-04:00" level=info msg="Creating container: \"client1\""
+time="2024-06-17T13:53:55-04:00" level=info msg="Creating container: \"client3\""
+time="2024-06-17T13:53:55-04:00" level=info msg="Creating container: \"spine01\""
+time="2024-06-17T13:53:55-04:00" level=info msg="Creating container: \"leaf02\""
+time="2024-06-17T13:53:55-04:00" level=info msg="Creating container: \"spine02\""
+time="2024-06-17T13:53:55-04:00" level=info msg="Creating container: \"leaf03\""
+time="2024-06-17T13:53:55-04:00" level=info msg="Creating container: \"leaf01\""
+time="2024-06-17T13:53:57-04:00" level=error msg="failed to run postdeploy task for node spine01: crpd post-deploy failed: ssh: unrecognized service\n"
+time="2024-06-17T13:53:57-04:00" level=error msg="failed to run postdeploy task for node spine02: crpd post-deploy failed: ssh: unrecognized service\n"
+time="2024-06-17T13:53:57-04:00" level=info msg="Created link: spine01:eth3 <--> leaf03:eth1"
+time="2024-06-17T13:53:57-04:00" level=info msg="Created link: spine02:eth3 <--> leaf03:eth2"
+time="2024-06-17T13:53:57-04:00" level=info msg="Created link: client3:eth1 <--> leaf03:eth3"
+time="2024-06-17T13:53:57-04:00" level=error msg="failed to run postdeploy task for node leaf03: crpd post-deploy failed: ssh: unrecognized service\n"
+time="2024-06-17T13:53:57-04:00" level=info msg="Created link: spine01:eth1 <--> leaf01:eth1"
+time="2024-06-17T13:53:57-04:00" level=info msg="Created link: spine01:eth2 <--> leaf02:eth1"
+time="2024-06-17T13:53:58-04:00" level=info msg="Created link: spine02:eth1 <--> leaf01:eth2"
+time="2024-06-17T13:53:58-04:00" level=info msg="Created link: spine02:eth2 <--> leaf02:eth2"
+time="2024-06-17T13:53:58-04:00" level=info msg="Created link: client2:eth1 <--> leaf02:eth3"
+time="2024-06-17T13:53:58-04:00" level=info msg="Created link: client1:eth1 <--> leaf01:eth3"
+time="2024-06-17T13:53:58-04:00" level=error msg="failed to run postdeploy task for node leaf02: crpd post-deploy failed: ssh: unrecognized service\n"
+time="2024-06-17T13:53:58-04:00" level=error msg="failed to run postdeploy task for node leaf01: crpd post-deploy failed: ssh: unrecognized service\n"
+time="2024-06-17T13:53:58-04:00" level=info msg="Adding containerlab host entries to /etc/hosts file"
+time="2024-06-17T13:53:58-04:00" level=info msg="Adding ssh config for containerlab nodes"
+time="2024-06-17T13:53:58-04:00" level=info msg="🎉 New containerlab version 0.55.0 is available! Release notes: https://containerlab.dev/rn/0.55/\nRun 'containerlab version upgrade' to upgrade or go check other installation options at https://containerlab.dev/install/\n"
++---+----------------------------+--------------+--------------------------------------+-------+---------+--------------+--------------+
+| # |            Name            | Container ID |                Image                 | Kind  |  State  | IPv4 Address | IPv6 Address |
++---+----------------------------+--------------+--------------------------------------+-------+---------+--------------+--------------+
+| 1 | clab-evpn-vxlan-01-client1 | a6c0ea842d2e | wbitt/network-multitool:alpine-extra | linux | running | 10.0.0.7/24  | N/A          |
+| 2 | clab-evpn-vxlan-01-client2 | cac427b9ec05 | wbitt/network-multitool:alpine-extra | linux | running | 10.0.0.8/24  | N/A          |
+| 3 | clab-evpn-vxlan-01-client3 | 5a96c1b379bf | wbitt/network-multitool:alpine-extra | linux | running | 10.0.0.9/24  | N/A          |
+| 4 | clab-evpn-vxlan-01-leaf01  | d600f96cae62 | crpd:22.4R1-S2.1                     | crpd  | running | 10.0.0.4/24  | N/A          |
+| 5 | clab-evpn-vxlan-01-leaf02  | 5b58125869a6 | crpd:22.4R1-S2.1                     | crpd  | running | 10.0.0.5/24  | N/A          |
+| 6 | clab-evpn-vxlan-01-leaf03  | cf8d37dfb388 | crpd:22.4R1-S2.1                     | crpd  | running | 10.0.0.6/24  | N/A          |
+| 7 | clab-evpn-vxlan-01-spine01 | 87724882a9c6 | crpd:22.4R1-S2.1                     | crpd  | running | 10.0.0.2/24  | N/A          |
+| 8 | clab-evpn-vxlan-01-spine02 | ddad40e4c789 | crpd:22.4R1-S2.1                     | crpd  | running | 10.0.0.3/24  | N/A          |
++---+----------------------------+--------------+--------------------------------------+-------+---------+--------------+--------------+
+Checking for installed cRPD license on spine01...[OK]
+Checking for installed cRPD license on spine02...[OK]
+Checking for installed cRPD license on leaf01...[OK]
+Checking for installed cRPD license on leaf02...[OK]
+Checking for installed cRPD license on leaf03...[OK]
+[2024-06-17 13:53:55] ContainerLAB topology successfully deployed.
+[2024-06-17 13:54:21] Starting configuration...
+[2024-06-17 13:54:21] Running ansible playbook for cRPD configuration...
+
+PLAY [Configure network devices based on operating system] *********************
+Monday 17 June 2024  13:54:21 -0400 (0:00:00.034)       0:00:00.034 *********** 
+Monday 17 June 2024  13:54:21 -0400 (0:00:00.003)       0:00:00.038 *********** 
+Monday 17 June 2024  13:54:21 -0400 (0:00:00.003)       0:00:00.041 *********** 
+Monday 17 June 2024  13:54:21 -0400 (0:00:00.003)       0:00:00.045 *********** 
+Monday 17 June 2024  13:54:21 -0400 (0:00:00.003)       0:00:00.049 *********** 
+
+TASK [configure spine01] *******************************************************
+changed: [leaf01]
+changed: [leaf02]
+changed: [leaf03]
+changed: [spine02]
+changed: [spine01]
+
+PLAY RECAP *********************************************************************
+leaf01                     : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+leaf02                     : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+leaf03                     : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+spine01                    : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+spine02                    : ok=1    changed=1    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+Playbook run took 0 days, 0 hours, 0 minutes, 2 seconds
+Monday 17 June 2024  13:54:23 -0400 (0:00:02.543)       0:00:02.593 *********** 
+=============================================================================== 
+configure spine01 ------------------------------------------------------- 2.56s
+[2024-06-17 13:54:21] Running shell scripts for client configuration...
+[2024-06-17 21:05:15] Executing validation testing...
+Pinging client2 (10.10.1.2) from client1 over VNI 110...SUCCESS
+[2024-06-17 21:05:48] Executing validation testing...
+Pinging client2 (10.10.1.2) from client1 over VNI 110...SUCCESS
+[2024-06-17 21:07:54] Executing validation testing...
+Testing intra-VNI connectivity
+Pinging (10.10.1.2) from client1...SUCCESS
+Testing inter-VNI connectivity
+Pinging (10.10.2.1) from client1...SUCCESS
+time="2024-06-17T21:11:32-04:00" level=info msg="Parsing & checking topology file: setup.yml"
+time="2024-06-17T21:11:32-04:00" level=info msg="Serving static files from directory: /etc/containerlab/templates/graph/nextui/static"
+time="2024-06-17T21:11:32-04:00" level=info msg="Serving topology graph on http://0.0.0.0:50080"
+time="2024-06-17T21:16:15-04:00" level=info msg="Parsing & checking topology file: setup.yml"
+time="2024-06-17T21:16:15-04:00" level=info msg="Serving static files from directory: /etc/containerlab/templates/graph/nextui/static"
+time="2024-06-17T21:16:15-04:00" level=info msg="Serving topology graph on http://0.0.0.0:50080"

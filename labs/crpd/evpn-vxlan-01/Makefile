@@ -4,7 +4,7 @@ VENV_DIR = .venv
 REQ_FILE = requirements.txt
 ANSIBLE_HOSTS = ansible/hosts
 ANSIBLE_PLAYBOOK = ansible/config.yaml
-CLIENTS = client1 client2
+CLIENTS = client1 client2 client3
 
 define log
     echo "[$(shell date '+%Y-%m-%d %H:%M:%S')] $1" >> $(LOG_FILE)
@@ -17,10 +17,6 @@ define client_setup
 	done
 endef
 
-.PHONY: graph
-graph:
-	@sudo clab graph --topo setup.yml
-
 .PHONY: validate
 validate:
 	@$(call log,Executing validation testing...)
@@ -31,7 +27,7 @@ validate:
 configure:
 	@$(call log,Starting configuration...)
 	@$(call log,Running ansible playbook for cRPD configuration...)
-	@$(VENV_DIR)/bin/ansible-playbook -i $(ANSIBLE_HOSTS) -l spine01,spine02,leaf01,leaf02 $(ANSIBLE_PLAYBOOK) >> $(LOG_FILE) 2>&1
+	@$(VENV_DIR)/bin/ansible-playbook -i $(ANSIBLE_HOSTS) -l spine01,spine02,leaf01,leaf02,leaf03 $(ANSIBLE_PLAYBOOK) >> $(LOG_FILE) 2>&1
 	@$(call log,Running shell scripts for client configuration...)
 	@$(call client_setup) >> $(LOG_FILE) 2>&1
 	@echo "Configuration complete. Check 'setup.log' for detailed output."
