@@ -9,3 +9,6 @@ log.txt
 logs.log
 setup.log
 nohup.out
+secrets.env
+settings.json
+network_data.txt
